@@ -1,0 +1,28 @@
+{% extends 'plag/base.html' %}
+{% block content %}
+<h1>Courses</h1>
+{% if courses %}
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Course</th>
+			<th>Class</th>
+			<th>Semester</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+    		{% for c in courses %}
+		<tr>
+			<td>{{ c.name }}</td>
+			<td>{{ c.classe }}</td>
+			<td>{{ c.year }}/{{ c.semester }}</td>
+			<td><a href="{% url 'course' c.id %}" class="btn btn-primary btn-sm" role="button">View</a></td>
+		</tr>
+    		{% endfor %}
+	</tbody>
+</table>
+{% else %}
+    <p>No courses available.</p>
+{% endif %}
+{% endblock %}

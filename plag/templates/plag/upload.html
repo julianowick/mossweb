@@ -1,0 +1,12 @@
+{% extends 'plag/base.html' %}
+{% block content %}
+<h1>Upload Assignment for {{ assignment.course }} {{ assignment }}</h1>
+
+{% if error_message %}<div class="alert alert-danger" role="alert">{{ error_message }}</div>{% endif %}
+
+<form action="{% url 'upload' assignment.id %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Send">
+</form>
+{% endblock %}

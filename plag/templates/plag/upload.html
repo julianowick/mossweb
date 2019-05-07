@@ -6,7 +6,15 @@
 
 <form action="{% url 'upload' assignment.id %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
+    {% for field in form %}
+        <div class="form-group">
+        <div class="alert alert-danger" role="alert">{{ field.errors }}</div>
+        {{ field.label_tag }} {{ field }}
+        {% if field.help_text %}
+        <small id="uploadHelp" class="form-text text-muted">{{ field.help_text|safe }}</small>
+        {% endif %}
+    </div>
+    {% endfor %}
     <input type="submit" value="Send">
 </form>
 {% endblock %}

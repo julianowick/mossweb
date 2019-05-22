@@ -1,5 +1,7 @@
 import os
 import logging
+import shutil
+import zipfile
 
 from django.db import models
 from django.core.validators import FileExtensionValidator
@@ -27,7 +29,34 @@ class Assignment(models.Model):
     upload = models.FileField(upload_to=upload_filename, null=True, blank=True, validators=[FileExtensionValidator(allowed_extensions=('zip',))])
 
     def extract(self):
-        pass
+        if(not(self.upload)): # No file has been uploaded
+            raise self.AssignmentException(
+                    'No file has been uploaded to assignment %s' %
+                    self.name
+            )
+        with zipfile.ZipFile(self.upload) as zip_file:
+            for member in zip_file.namelist():
+                filename = os.path.basename(member)
+                # skip directories
+                if not filename:
+                    continue
+
+                # skip non-C source files
+                if not filename.endswith(('.c', '.cpp')):
+                    continue
+
+                # copy file (taken from zipfile's extract)
+                source = zip_file.open(member)
+                # create new name based on the directory name i.e. student's name
+                newname = member[0:member.index('_')].replace(' ', '_') + '.c'
+                target_dir = 'extract/%s/%s/' % (str(self.course).replace('/','-'), self.name)
+                target_dir = target_dir.replace(' ', '_')
+                if not os.path.exists(target_dir):
+                    os.makedirs(target_dir)
+                target = open(os.path.join(target_dir, newname), "wb")
+                with source, target:
+                    shutil.copyfileobj(source, target)
+        return True
 
     def moss(self):
         pass

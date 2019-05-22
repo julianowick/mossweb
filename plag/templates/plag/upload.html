@@ -8,7 +8,7 @@
     {% csrf_token %}
     {% for field in form %}
         <div class="form-group">
-        <div class="alert alert-danger" role="alert">{{ field.errors }}</div>
+        {% if field.errors %}<div class="alert alert-danger" role="alert">{{ field.errors }}</div>{% endif %}
         {{ field.label_tag }} {{ field }}
         {% if field.help_text %}
         <small id="uploadHelp" class="form-text text-muted">{{ field.help_text|safe }}</small>

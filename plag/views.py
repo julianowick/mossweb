@@ -1,10 +1,16 @@
+import logging
+
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, redirect
+from django.contrib import messages
 
 from .models import Course
 from .models import Assignment
 from .forms import AssignmentForm
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 def index(request):
 
@@ -41,3 +47,19 @@ def upload(request, assignment_id):
         form = AssignmentForm(instance=assignment)
 
     return render(request, 'plag/upload.html', {'assignment': assignment, 'form': form})
+
+def process(request, assignment_id):
+    try:
+        assignment = Assignment.objects.get(pk=assignment_id)
+    except:
+        raise Http404("Assignment does not exist")
+
+    # First extract files
+    try:
+        assignment.extract()
+    except assignment.AssignmentException as e:
+        msg = "Could not extract file %s: %s" % (assignment.upload, str(e))
+        messages.warning(request, msg)
+        logger.warning(msg)
+
+    return redirect('course', assignment.course.id)

@@ -131,3 +131,9 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+# Import settings that are left out of the public git repository
+try:
+    from local_settings import *
+except ImportError:
+    pass

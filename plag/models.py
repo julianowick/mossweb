@@ -37,12 +37,12 @@ class Course(models.Model):
         for i in range(1, 15):
             lab = Assignment()
             lab.course = self
-            lab.name = 'LAB%2d' % i
+            lab.name = 'LAB%02d' % i
             lab.save()
 
             ep = Assignment()
             ep.course = self
-            ep.name = 'EP%2d' % i
+            ep.name = 'EP%02d' % i
             ep.save()
 
         # Tests
@@ -63,6 +63,9 @@ class Course(models.Model):
 
     def __str__(self):
         return '%s - %s (%d/%d)' % (self.name, self.classe, self.year, self.semester)
+
+    class Meta:
+        ordering = ['year', 'semester', 'classe', 'name']
 
 # Define file upload path and filename
 def upload_filename(instance, filename):
@@ -178,6 +181,9 @@ class Assignment(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['name']
 
     class AssignmentException(Exception):
 

@@ -28,7 +28,11 @@
 		<tr>
 			<td>{{ a }}</td>
 			<td>
+				{% if a.is_processed %}
+				<a href="{% url 'report' a.id %}" class="btn btn-primary btn-sm" role="button">View Report</a> 
+				{% else %}
 				<a href="#" class="btn btn-primary btn-sm disabled" role="button">View Report</a> 
+				{% endif %}
 				<a href="{% url 'upload' a.id %}" class="btn btn-primary btn-sm" role="button">Upload</a>
 			</td>
 		</tr>

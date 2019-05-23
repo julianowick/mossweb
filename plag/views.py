@@ -32,6 +32,14 @@ def course(request, course_id):
 
     return render(request, 'plag/course.html', {'course': course})
 
+def report(request, assignment_id):
+    try:
+        assignment = Assignment.objects.get(pk=assignment_id)
+    except:
+        raise Http404("Assignment does not exist")
+
+    return render(request, 'plag/report.html', {'assignment': assignment})
+
 def upload(request, assignment_id):
     try:
         assignment = Assignment.objects.get(pk=assignment_id)
@@ -62,4 +70,14 @@ def process(request, assignment_id):
         messages.warning(request, msg)
         logger.warning(msg)
 
+    try:
+        assignment.moss()
+    except Exception as e:
+        msg = "Could not run similarity check for %s: %s" % (assignment.name, str(e))
+        messages.warning(request, msg)
+        logger.warning(msg)
+
+    msg = "Report created for %s" % assignment.name
+    messages.success(request, msg)
+    logger.info(msg)
     return redirect('course', assignment.course.id)

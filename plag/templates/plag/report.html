@@ -1,0 +1,9 @@
+{% extends 'plag/base.html' %}
+{% block content %}
+<h1>Report for {{ assignment.course }} {{ assignment }}</h1>
+
+{% if assignment.is_processed %}
+{% include assignment.report_filename %}
+{% endif %}
+<a href="{% url 'course' assignment.course.id %}" class="btn btn-primary" role="button">Go back</a>
+{% endblock %}

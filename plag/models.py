@@ -53,6 +53,19 @@ class Assignment(models.Model):
     def is_processed(self):
         return os.path.exists(self.report_filename())
 
+    def load_report(self):
+        if not self.is_processed():
+            raise self.AssignmentException(
+                'No report has been created for assignment %s' %
+                self.name
+            )
+        output = ''
+        with open(self.report_filename(), 'r') as file:
+            data = file.read()
+            output += data
+
+        return output
+
     # Extract assignments from zip file (Moodle assignment style)
     def extract(self):
         if(not(self.upload)): # No file has been uploaded

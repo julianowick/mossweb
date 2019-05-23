@@ -3,7 +3,7 @@
 <h1>Report for {{ assignment.course }} {{ assignment }}</h1>
 
 {% if assignment.is_processed %}
-{% include assignment.report_filename %}
+{{ assignment.load_report | safe }}
 {% endif %}
 <a href="{% url 'course' assignment.course.id %}" class="btn btn-primary" role="button">Go back</a>
 {% endblock %}

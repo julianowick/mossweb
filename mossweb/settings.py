@@ -52,7 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'web.urls'
+ROOT_URLCONF = 'mossweb.urls'
 
 TEMPLATES = [
     {
@@ -70,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'web.wsgi.application'
+WSGI_APPLICATION = 'mossweb.wsgi.application'
 
 
 # Database
@@ -134,6 +134,6 @@ MESSAGE_TAGS = {
 
 # Import settings that are left out of the public git repository
 try:
-    from local_settings import *
+    from mossweb.local_settings import *
 except ImportError:
     pass

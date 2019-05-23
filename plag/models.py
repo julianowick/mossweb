@@ -4,6 +4,8 @@ import shutil
 import zipfile
 import mosspy
 
+from bs4 import BeautifulSoup
+
 from django.db import models
 from django.conf import settings
 from django.core.validators import FileExtensionValidator
@@ -63,8 +65,21 @@ class Assignment(models.Model):
         with open(self.report_filename(), 'r') as file:
             data = file.read()
             output += data
+        soup = BeautifulSoup(output, 'lxml')
+        body = soup.find('body')
+        # Shorten filenames by removing path prefix
+        for td in body.find_all('td'):
+            a = td.find('a')
+            if a:
+                a.string = a.string.replace('%s/' % self.extract_dirname(), '')
+                a['target'] = '_blank'
 
-        return output
+        # Adding Bootstrap style to table
+        table = body.find('table')
+        if table:
+            table['class'] = 'table table-striped'
+
+        return body.prettify()
 
     # Extract assignments from zip file (Moodle assignment style)
     def extract(self):

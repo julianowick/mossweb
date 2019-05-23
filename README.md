@@ -14,3 +14,11 @@ pip install Django==2.2
 ```
 pip install mossy==1.0.7
 ```
+
+### beautifulsoup4 4.7.1
+
+```
+pip install beautifulsoup4==4.7.1
+```
+
+

@@ -1,4 +1,4 @@
-# moss-web
+# mossweb
 Python/Django-based web GUI for Stanford's MOSS Similarity Checker
 
 ## Dependencies

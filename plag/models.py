@@ -52,6 +52,9 @@ class Assignment(models.Model):
         dirname = self.report_dirname()
         return '%s/report.html' % dirname
 
+    def is_uploaded(self):
+        return os.path.exists(str(self.upload))
+
     def is_processed(self):
         return os.path.exists(self.report_filename())
 

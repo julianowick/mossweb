@@ -3,6 +3,7 @@ import logging
 import shutil
 import zipfile
 import mosspy
+import datetime
 
 from bs4 import BeautifulSoup
 
@@ -13,13 +14,52 @@ from django.core.validators import FileExtensionValidator
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
+def current_year():
+    return datetime.date.today().year
+
 class Course(models.Model):
     name = models.CharField(max_length=254)
     classe = models.CharField(max_length=5, default='U')
     professor = models.CharField(max_length=254)
     email = models.EmailField()
-    year = models.PositiveSmallIntegerField()
-    semester = models.PositiveSmallIntegerField()
+    year = models.PositiveSmallIntegerField(default=current_year)
+    semester = models.PositiveSmallIntegerField(default=1)
+
+    def save(self, *args, **kwargs):
+        # Saving specific course named INF01040 will trigger the creation of assignments
+        inf01040 = False
+        if self._state.adding and self.name == 'INF01040':
+            inf01040 = True
+
+        super().save(*args, **kwargs)
+
+        # Weekly assignments
+        for i in range(1, 15):
+            lab = Assignment()
+            lab.course = self
+            lab.name = 'LAB%2d' % i
+            lab.save()
+
+            ep = Assignment()
+            ep.course = self
+            ep.name = 'EP%2d' % i
+            ep.save()
+
+        # Tests
+        p1 = Assignment()
+        p1.course = self
+        p1.name = 'P1'
+        p1.save()
+        p2 = Assignment()
+        p2.course = self
+        p2.name = 'P2'
+        p2.save()
+        pr = Assignment()
+        pr.course = self
+        pr.name = 'Rec'
+        pr.save()
+
+        # TODO: Maybe this should be done via a template model
 
     def __str__(self):
         return '%s - %s (%d/%d)' % (self.name, self.classe, self.year, self.semester)

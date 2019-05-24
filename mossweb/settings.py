@@ -132,6 +132,9 @@ MESSAGE_TAGS = {
     messages.ERROR: 'alert-danger',
 }
 
+# MOSS specific options (set your own ID)
+MOSS_USERID = 1234567
+
 # Import settings that are left out of the public git repository
 try:
     from mossweb.local_settings import *

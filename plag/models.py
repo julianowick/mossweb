@@ -80,15 +80,15 @@ class Assignment(models.Model):
     upload = models.FileField(upload_to=upload_filename, null=True, blank=True, validators=[FileExtensionValidator(allowed_extensions=('zip',))])
 
     def upload_dirname(self):
-        dirname = 'uploads/%s' % str(self.course).replace('/','-') 
+        dirname = '%s/uploads/%s' % (settings.UPLOADS_ROOT, str(self.course).replace('/','-'))
         return dirname.replace(' ', '_')
 
     def extract_dirname(self):
-        dirname = 'extract/%s/%s' % (str(self.course).replace('/','-'), self.name)
+        dirname = '%s/extract/%s/%s' % (settings.UPLOADS_ROOT, str(self.course).replace('/','-'), self.name)
         return dirname.replace(' ', '_')
 
     def report_dirname(self):
-        dirname = 'reports/%s/%s' % (str(self.course).replace('/','-'), self.name)
+        dirname = '%s/reports/%s/%s' % (settings.UPLOADS_ROOT, str(self.course).replace('/','-'), self.name)
         return dirname.replace(' ', '_')
 
     def report_filename(self):

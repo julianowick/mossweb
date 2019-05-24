@@ -135,6 +135,9 @@ MESSAGE_TAGS = {
 # MOSS specific options (set your own ID)
 MOSS_USERID = 1234567
 
+# Root folder to upload and process assignments
+UPLOADS_ROOT = '/mossweb-files'
+
 # Import settings that are left out of the public git repository
 try:
     from mossweb.local_settings import *

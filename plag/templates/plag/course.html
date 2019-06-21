@@ -3,14 +3,10 @@
 <h1>{{ course }}</h1>
 
 <dl>
-	<dt>Name: </dt>
-	<dd>{{ course.name}}</dd>
-	<dt>Class: </dt>
-	<dd>{{ course.classe}}</dd>
+	<dt>Course: </dt>
+	<dd>{{ course.name}} (Class {{ course.classe}})</dd>
 	<dt>Professor: </dt>
-	<dd>{{ course.professor}}</dd>
-	<dt>Email: </dt>
-	<dd>{{ course.email}}</dd>
+	<dd>{{ course.professor}} (<a href="mailto:{{ course.email}}">{{ course.email}}</a>)</dd>
 	<dt>Semester: </dt>
 	<dd>{{ course.year }}/{{ course.semester }}</dd>
 </dl>

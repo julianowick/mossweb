@@ -50,6 +50,9 @@ def upload(request, assignment_id):
         form = AssignmentForm(request.POST, request.FILES, instance=assignment)
         if form.is_valid():
             form.save()
+            msg = "Assignment %s uploaded successfully" % assignment.name
+            messages.success(request, msg)
+            logger.info(msg)
             return redirect('course', assignment.course.id)
     else:
         form = AssignmentForm(instance=assignment)

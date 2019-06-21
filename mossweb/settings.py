@@ -132,11 +132,41 @@ MESSAGE_TAGS = {
     messages.ERROR: 'alert-danger',
 }
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    },
+}
+
 # MOSS specific options (set your own ID)
 MOSS_USERID = 1234567
 
 # Root folder to upload and process assignments
 UPLOADS_ROOT = '/mossweb-files'
+
+# mossweb HTTP server prefix
+HTTP_PREFIX = ''
 
 # Import settings that are left out of the public git repository
 try:

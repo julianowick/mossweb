@@ -15,8 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.conf import settings
+
+from plag.views import index
 
 urlpatterns = [
-    path('plag/', include('plag.urls')),
-    path('admin/', admin.site.urls),
+    path(settings.HTTP_PREFIX, include([
+        path('', index), # Defaults to plag home view
+        path('plag/', include('plag.urls')),
+        path('admin/', admin.site.urls),
+    ]))
 ]

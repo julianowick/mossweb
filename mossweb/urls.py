@@ -15,8 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.conf import settings 
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
-    path('plag/', include('plag.urls')),
-    path('admin/', admin.site.urls),
+    path(settings.HTTP_PREFIX, include([
+        path('', RedirectView.as_view(url='plag/'), name='go-home'),
+        path('plag/', include('plag.urls')),
+        path('admin/', admin.site.urls),
+    ]))
 ]

@@ -148,7 +148,12 @@ class Assignment(models.Model):
                 # copy file (taken from zipfile's extract)
                 source = zip_file.open(member)
                 # create new name based on the directory name i.e. student's name
-                newname = member[0:member.index('_')].replace(' ', '_') + '.c'
+                # in Moodle's zip standard there is an _file_ at the end of the directory's name
+                if '_file_' in member:
+                    newname = member[0:member.index('_')].replace(' ', '_') + '_' + filename
+                else:
+                    newname = member.replace('/', '_')
+
                 target_dir = self.extract_dirname()
                 if not os.path.exists(target_dir):
                     os.makedirs(target_dir)

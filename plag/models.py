@@ -26,9 +26,9 @@ class Course(models.Model):
     semester = models.PositiveSmallIntegerField(default=1)
 
     def save(self, *args, **kwargs):
-        # Saving specific course named INF01040 will trigger the creation of assignments
+        # Saving specific course named INF01040/INF01073 will trigger the creation of assignments
         inf01040 = False
-        if self._state.adding and self.name == 'INF01040':
+        if self._state.adding and self.name in ['INF01040', 'INF01073']:
             inf01040 = True
 
         super().save(*args, **kwargs)
